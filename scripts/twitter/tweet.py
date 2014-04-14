@@ -11,7 +11,7 @@ class Weather(object):
 
     def __init__(self, location_id):
         self.data = requests.get(
-            'http://weather.livedoor.com/forecast/webservice/json/v1?city=%s' \
+            'http://weather.livedoor.com/forecast/webservice/json/v1?city=%s'
                  % location_id).json()
 
     def get_data(self):
@@ -34,22 +34,24 @@ class Contoroller(object):
     # TODO: ストラテジパターンとか使って分ける
     def make_message(self):
         prefecture = self.wheather.get("location").get("prefecture")  # 都道府県
-	for forecasts in self.wheather.get("forecasts"):
+        for forecasts in self.wheather.get("forecasts"):
             if forecasts.get("dateLabel") == u"今日":
                 break
-	max_temperature = forecasts.get("temperature").get('max').get('celsius')  # 最高気温
-        min_temperature = forecasts.get("temperature").get('min').get('celsius')  # 最高気温
-        today = datetime.datetime.strptime(forecasts.get("date"), '%Y-%m-%d')  # 日付
-        month = today.month
-        day = today.day
-	telop = forecasts.get("telop")  # "晴れ"など
+        today = datetime.datetime.strptime(forecasts.get("date"), '%Y-%m-%d')
 	public_time = self.wheather.get("publicTime")
-        message = u"[自動送信テスト] {month}月{day}日 {prefecture}の天気は{telop}、最高気温{max_temperature}度 最低気温{min_temperature}度".format(month=month, day=day, prefecture=prefecture, telop=telop, max_temperature=max_temperature, min_temperature=min_temperature)
+        message = u"[自動] {month}月{day}日 {prefecture}は{telop} 気温{min_temperature}〜{max_temperature}度"\
+            .format(month=today.month,
+                    day=today.day,
+                    prefecture=prefecture,
+                    telop=forecasts.get("telop"),  # "晴れ"など
+                    max_temperature=forecasts.get("temperature").get('max').get('celsius'),  # 最高気温
+                    min_temperature=forecasts.get("temperature").get('min').get('celsius'))  # 最低気温
         return message
 
     def send(self):
-        print self.make_message()
-        self.twitter_api.PostUpdates(self.make_message())
+        message = self.make_message()
+        self.twitter_api.PostUpdates(message)
+        print message
 
 
 c = Contoroller()
