@@ -41,7 +41,7 @@ class Contoroller(object):
 	public_time = self.wheather.get("publicTime")
 
 	if forecasts.get("temperature").get("max"):
-            message = u"[自動test] おはよう。 {month}月{day}日 {prefecture}は{telop} 気温{min_temperature}〜{max_temperature}度"\
+            message = u"[自動] おはよう。 {month}月{day}日 {prefecture}は{telop} 気温{min_temperature}〜{max_temperature}度"\
                 .format(month=today.month,
                         day=today.day,
                         prefecture=prefecture,
@@ -49,7 +49,7 @@ class Contoroller(object):
                         max_temperature=forecasts.get("temperature").get('max').get('celsius'),  # 最高気温
                         min_temperature=forecasts.get("temperature").get('min').get('celsius'))  # 最低気温
         else:
-            message = u"[自動test] おはよう。 {month}月{day}日 {prefecture}の天気は{telop}みたいです。"\
+            message = u"[自動] おはよう。 {month}月{day}日 {prefecture}の天気は{telop}みたいです。"\
                 .format(month=today.month,
                         day=today.day,
                         prefecture=prefecture,
