@@ -39,13 +39,21 @@ class Contoroller(object):
                 break
         today = datetime.datetime.strptime(forecasts.get("date"), '%Y-%m-%d')
 	public_time = self.wheather.get("publicTime")
-        message = u"[自動] {month}月{day}日 {prefecture}は{telop} 気温{min_temperature}〜{max_temperature}度"\
-            .format(month=today.month,
-                    day=today.day,
-                    prefecture=prefecture,
-                    telop=forecasts.get("telop"),  # "晴れ"など
-                    max_temperature=forecasts.get("temperature").get('max').get('celsius'),  # 最高気温
-                    min_temperature=forecasts.get("temperature").get('min').get('celsius'))  # 最低気温
+
+	if forecasts.get("temperature").get("max"):
+            message = u"[自動test] おはよう。 {month}月{day}日 {prefecture}は{telop} 気温{min_temperature}〜{max_temperature}度"\
+                .format(month=today.month,
+                        day=today.day,
+                        prefecture=prefecture,
+                        telop=forecasts.get("telop"),  # "晴れ"など
+                        max_temperature=forecasts.get("temperature").get('max').get('celsius'),  # 最高気温
+                        min_temperature=forecasts.get("temperature").get('min').get('celsius'))  # 最低気温
+        else:
+            message = u"[自動test] おはよう。 {month}月{day}日 {prefecture}の天気は{telop}みたいです。"\
+                .format(month=today.month,
+                        day=today.day,
+                        prefecture=prefecture,
+                        telop=forecasts.get("telop"))  # "晴れ"など
         return message
 
     def send(self):
