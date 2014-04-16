@@ -62,5 +62,6 @@ class Contoroller(object):
         print message
 
 
-c = Contoroller()
-c.send()
+if __name__ == '__main__':
+    c = Contoroller()
+    c.send()
