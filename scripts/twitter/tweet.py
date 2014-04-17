@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
+import codecs
 
 import twitter
 import settings
@@ -58,10 +60,11 @@ class Contoroller(object):
 
     def send(self):
         message = self.make_message()
-        self.twitter_api.PostUpdates(message)
+#        self.twitter_api.PostUpdates(message)
         print message
 
 
 if __name__ == '__main__':
+    sys.stdout = codecs.getwriter('utf8')(sys.stdout)
     c = Contoroller()
     c.send()
