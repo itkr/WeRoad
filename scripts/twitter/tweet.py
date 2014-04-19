@@ -64,7 +64,18 @@ class Contoroller(object):
         print message
 
 
-if __name__ == '__main__':
+def main():
     sys.stdout = codecs.getwriter('utf8')(sys.stdout)
     c = Contoroller()
     c.send()
+
+
+if __name__ = '__main__':
+    main()
+
+
+
+
+
+
+
