@@ -5,4 +5,3 @@ try:
     from raspberrypi import *
 except ImportError:
     from sample import *
-    

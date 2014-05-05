@@ -9,7 +9,7 @@ import settings
 import datetime
 
 
-def get_letters():  
+def get_letters():
     source = string.digits + string.letters
     letters = u"".join([random.choice(source) for i in xrange(25)])
     letters_hash = hashlib.sha256(letters).hexdigest()
@@ -27,7 +27,7 @@ def tweet(message):
 
 def main(argv):
     message = u" ".join([
-        u"[自動テスト]", 
+        u"[自動テスト]",
         u"【date】:",
         unicode(datetime.datetime.now()),
         u"【code】:",
@@ -39,4 +39,3 @@ def main(argv):
 
 if __name__ == '__main__':
     raise StandardError
-

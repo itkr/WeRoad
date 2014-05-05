@@ -8,15 +8,15 @@ import codecs
 import scripts
 
 
-def proxy(script_name, argv):
-    if hasattr(scripts, script_name):
-        main_module = getattr(scripts, script_name)
+def proxy(module_name, argv):
+    if hasattr(scripts, module_name):
+        main_module = getattr(scripts, module_name)
         if hasattr(main_module, "main"):
             main_script = getattr(main_module, "main")
             main_script(argv)
             return
     raise ImportError
-        
+
 
 def main():
     sys.stdout = codecs.getwriter('utf8')(sys.stdout)
