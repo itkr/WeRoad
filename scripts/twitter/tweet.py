@@ -31,7 +31,7 @@ class Contoroller(object):
             access_token_secret=settings.twitter.ACCESS_TOKEN_SECRET)
 
         # TODO: dataを隠蔽
-	self.wheather = Weather(self.LOCATION_ID).get_data()
+        self.wheather = Weather(self.LOCATION_ID).get_data()
 
     # TODO: ストラテジパターンとか使って分ける
     def make_message(self):
@@ -40,9 +40,9 @@ class Contoroller(object):
             if forecasts.get("dateLabel") == u"今日":
                 break
         today = datetime.datetime.strptime(forecasts.get("date"), '%Y-%m-%d')
-	public_time = self.wheather.get("publicTime")
+        public_time = self.wheather.get("publicTime")
 
-	if forecasts.get("temperature").get("max"):
+        if forecasts.get("temperature").get("max"):
             message = u"[自動] おはよう。 {month}月{day}日 {prefecture}は{telop} 気温{min_temperature}〜{max_temperature}度"\
                 .format(month=today.month,
                         day=today.day,
@@ -70,12 +70,5 @@ def main():
     c.send()
 
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
