@@ -1,2 +1,26 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os
-SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+import sys
+import codecs
+
+
+def proxy(script_name, argv):
+    import scripts
+    if hasattr(scripts, script_name):
+        main_module = getattr(scripts, script_name)
+        if hasattr(main_module, "main"):
+            main_script = getattr(main_module, "main")
+            main_script(argv)
+
+
+def main():
+    sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+    site_root = os.path.dirname(os.path.realpath(__file__))
+    argv = sys.argv
+    proxy(argv[1], argv)
+
+
+if __name__ == '__main__':
+    main()

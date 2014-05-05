@@ -1,27 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
-import codecs
 
 import twitter
 import settings
-import requests
 import datetime
-
-
-class Weather(object):
-
-    def __init__(self, location_id):
-        self.location_id = location_id
-        self.update()
-
-    def update(self):
-        self.data = requests.get(
-            'http://weather.livedoor.com/forecast/webservice/json/v1?city=%s'
-                 % self.location_id).json()
-
-    def get_data(self):
-        return self.data
+from models import Weather
 
 
 class Controller(object):
@@ -71,16 +54,15 @@ class Controller(object):
 
     def send(self):
         message = self.make_message()
-        self.twitter_api.PostUpdates(message)
+#        self.twitter_api.PostUpdates(message)
         print message
 
 
-def main():
-    sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+def main(args):
     c = Controller()
     c.send()
 
 
 if __name__ == '__main__':
-    main()
+    raise StandardError
     
