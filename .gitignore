@@ -2,3 +2,5 @@
 *.pyc
 *.py~
 scripts/twitter/settings.py
+.project
+.pydevproject
