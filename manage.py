@@ -5,9 +5,10 @@ import os
 import sys
 import codecs
 
+import scripts
+
 
 def proxy(script_name, argv):
-    import scripts
     if hasattr(scripts, script_name):
         main_module = getattr(scripts, script_name)
         if hasattr(main_module, "main"):
@@ -19,7 +20,7 @@ def main():
     sys.stdout = codecs.getwriter('utf8')(sys.stdout)
     site_root = os.path.dirname(os.path.realpath(__file__))
     argv = sys.argv
-    proxy(argv[1], argv)
+    proxy(argv[1], argv[2:])
 
 
 if __name__ == '__main__':

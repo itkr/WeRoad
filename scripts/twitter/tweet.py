@@ -8,9 +8,8 @@ from models import Weather
 
 
 class Controller(object):
-    LOCATION_ID = 130010
 
-    def __init__(self):
+    def __init__(self, location_id):
         self.twitter_api = twitter.Api(
             consumer_key=settings.twitter.API_KEY,
             consumer_secret=settings.twitter.API_SECRET,
@@ -18,7 +17,7 @@ class Controller(object):
             access_token_secret=settings.twitter.ACCESS_TOKEN_SECRET)
 
         # TODO: dataを隠蔽
-        self.wheather = Weather(self.LOCATION_ID).get_data()
+        self.wheather = Weather(location_id).get_data()
 
     # TODO: ストラテジパターンとか使って分ける
     def make_message(self):
@@ -54,15 +53,17 @@ class Controller(object):
 
     def send(self):
         message = self.make_message()
-#        self.twitter_api.PostUpdates(message)
-        print message
+        self.twitter_api.PostUpdates(message)
+        return message
 
 
-def main(args):
-    c = Controller()
-    c.send()
+def main(argv):
+    location_id = argv[0] if argv else 130010
+    print "location_id:", location_id
+    c = Controller(location_id)
+    message = c.send()
+    print message
 
 
 if __name__ == '__main__':
     raise StandardError
-    

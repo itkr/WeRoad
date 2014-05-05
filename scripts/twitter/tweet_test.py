@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
-import codecs
 import random
 import string
 import hashlib
@@ -27,7 +25,7 @@ def tweet(message):
     twitter_api.PostUpdates(message)
 
 
-def main():
+def main(argv):
     message = u" ".join([
         u"[自動テスト]", 
         u"【date】:",
@@ -40,6 +38,5 @@ def main():
 
 
 if __name__ == '__main__':
-    sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-    main()
+    raise StandardError
 
