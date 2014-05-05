@@ -12,15 +12,19 @@ import datetime
 class Weather(object):
 
     def __init__(self, location_id):
+        self.location_id = location_id
+        self.update()
+
+    def update(self):
         self.data = requests.get(
             'http://weather.livedoor.com/forecast/webservice/json/v1?city=%s'
-                 % location_id).json()
+                 % self.location_id).json()
 
     def get_data(self):
         return self.data
 
 
-class Contoroller(object):
+class Controller(object):
     LOCATION_ID = 130010
 
     def __init__(self):
@@ -42,21 +46,28 @@ class Contoroller(object):
         today = datetime.datetime.strptime(forecasts.get("date"), '%Y-%m-%d')
         public_time = self.wheather.get("publicTime")
 
+        max_temperature = min_temperature = None
         if forecasts.get("temperature").get("max"):
-            message = u"[自動] おはよう。 {month}月{day}日 {prefecture}は{telop} 気温{min_temperature}〜{max_temperature}度"\
-                .format(month=today.month,
-                        day=today.day,
-                        prefecture=prefecture,
-                        telop=forecasts.get("telop"),  # "晴れ"など
-                        max_temperature=forecasts.get("temperature").get('max').get('celsius'),  # 最高気温
-                        min_temperature=forecasts.get("temperature").get('min').get('celsius'))  # 最低気温
+            max_temperature = forecasts.get("temperature").get("max").get('celsius')
+        if forecasts.get("temperature").get("min"):
+            min_temperature = forecasts.get("temperature").get("min").get('celsius')
+
+        if max_temperature and min_temperature:
+            message_format = u"[自動] おはよう。 {month}月{day}日 {prefecture}は{telop} 気温{min_temperature}〜{max_temperature}度"
+        elif max_temperature:
+            message_format = u"[自動] おはよう。 {month}月{day}日 {prefecture}は{telop} 最高気温は{max_temperature}度です"
+        elif min_temperature:
+            message_format = u"[自動] おはよう。 {month}月{day}日 {prefecture}は{telop} 最低気温は{min_temperature}度です"
         else:
-            message = u"[自動] おはよう。 {month}月{day}日 {prefecture}の天気は{telop}みたいです。"\
-                .format(month=today.month,
-                        day=today.day,
-                        prefecture=prefecture,
-                        telop=forecasts.get("telop"))  # "晴れ"など
-        return message
+            message_format = u"[自動] おはよう。 {month}月{day}日 {prefecture}の天気は{telop}みたいです。"
+
+        return message_format.format(
+            month=today.month,
+            day=today.day,
+            prefecture=prefecture,
+            telop=forecasts.get("telop"),  # "晴れ"など
+            max_temperature=max_temperature,  # 最高気温
+            min_temperature=min_temperature)  # 最低気温
 
     def send(self):
         message = self.make_message()
@@ -66,9 +77,10 @@ class Contoroller(object):
 
 def main():
     sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-    c = Contoroller()
+    c = Controller()
     c.send()
 
 
 if __name__ == '__main__':
     main()
+    
