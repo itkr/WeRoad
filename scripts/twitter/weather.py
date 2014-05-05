@@ -70,7 +70,7 @@ class Controller(object):
 
     def send(self):
         message = self.make_message()
-#        self.twitter_api.PostUpdates(message)
+        self.twitter_api.PostUpdates(message)
         return message
 
 
