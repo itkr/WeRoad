@@ -14,7 +14,9 @@ def proxy(script_name, argv):
         if hasattr(main_module, "main"):
             main_script = getattr(main_module, "main")
             main_script(argv)
-
+            return
+    raise ImportError
+        
 
 def main():
     sys.stdout = codecs.getwriter('utf8')(sys.stdout)

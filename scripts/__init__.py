@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from twitter import (
-    tweet,
+    simple,
+    weather,
     tweet_test,
 )
